@@ -13,4 +13,13 @@
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
+    <style name="AuthenticationScreenTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
+    <style name="TextInputLayoutTheme" parent="">
+        <item name="colorPrimary">@color/colorPrimary</item>
+    </style>
+
 </resources>

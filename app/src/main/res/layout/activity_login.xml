@@ -32,7 +32,7 @@
         app:layout_constraintTop_toTopOf="@+id/imageView"
         app:tint="@color/colorWhite" />
 
-    <com.example.myshoppal.utils.CustomTextViewBold
+    <com.example.myshoppal.utils.custom_view.CustomTextViewBold
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.example.myshoppal.utils.CustomTextViewRegular
+    <com.example.myshoppal.utils.custom_view.CustomTextViewRegular
         android:id="@+id/textViewForgotPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -141,7 +141,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/loginButton">
 
-            <com.example.myshoppal.utils.CustomTextViewRegular
+            <com.example.myshoppal.utils.custom_view.CustomTextViewRegular
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/clickable_text_view_padding"
@@ -150,7 +150,7 @@
                 android:textSize="@dimen/lbl_text_view_textSize"
                 tools:ignore="TextContrastCheck" />
 
-            <com.example.myshoppal.utils.CustomTextViewBold
+            <com.example.myshoppal.utils.custom_view.CustomTextViewBold
                 android:id="@+id/registerTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

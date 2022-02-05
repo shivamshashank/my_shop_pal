@@ -12,6 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".ui.activities.ForgotPasswordActivity"
+            android:exported="false"
+            android:screenOrientation="fullSensor"
+            android:theme="@style/AuthenticationScreenTheme" />
+        <activity
+            android:name=".ui.activities.BaseActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activities.RegisterActivity"
             android:exported="false"
             android:screenOrientation="fullSensor"

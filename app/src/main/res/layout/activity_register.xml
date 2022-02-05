@@ -37,7 +37,7 @@
             app:layout_constraintTop_toTopOf="@+id/imageView"
             app:tint="@color/colorWhite" />
 
-        <com.example.myshoppal.utils.CustomTextViewBold
+        <com.example.myshoppal.utils.custom_view.CustomTextViewBold
             android:id="@+id/titleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -163,20 +163,6 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.example.myshoppal.utils.CustomTextViewRegular
-            android:id="@+id/textViewForgotPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="22dp"
-            android:foreground="?attr/selectableItemBackground"
-            android:padding="@dimen/clickable_text_view_padding"
-            android:text="@string/lbl_forgot_password"
-            android:textColor="@color/colorSecondaryText"
-            android:textSize="@dimen/forgot_password_textSize"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutConfirmPassword"
-            tools:ignore="TextContrastCheck" />
-
         <LinearLayout
             android:id="@+id/termsAndCondition"
             android:layout_width="wrap_content"
@@ -185,7 +171,7 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewForgotPassword">
+            app:layout_constraintTop_toBottomOf="@id/textInputLayoutConfirmPassword">
 
             <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/checkBoxTermsAndCondition"
@@ -193,9 +179,10 @@
                 android:layout_height="wrap_content"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
-                tools:checked="false" />
+                tools:checked="false"
+                tools:ignore="TouchTargetSizeCheck" />
 
-            <com.example.myshoppal.utils.CustomTextViewRegular
+            <com.example.myshoppal.utils.custom_view.CustomTextViewRegular
                 android:id="@+id/textViewTermsCondition"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -232,7 +219,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/registerButton">
 
-            <com.example.myshoppal.utils.CustomTextViewRegular
+            <com.example.myshoppal.utils.custom_view.CustomTextViewRegular
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/clickable_text_view_padding"
@@ -241,7 +228,7 @@
                 android:textSize="@dimen/lbl_text_view_textSize"
                 tools:ignore="TextContrastCheck" />
 
-            <com.example.myshoppal.utils.CustomTextViewBold
+            <com.example.myshoppal.utils.custom_view.CustomTextViewBold
                 android:id="@+id/loginTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

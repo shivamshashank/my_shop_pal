@@ -3,20 +3,25 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/app_gradient_color_background.xml" value="0.191" />
         <entry key="app/src/main/res/drawable/button_background.xml" value="0.133" />
         <entry key="app/src/main/res/drawable/custom_email_icon.xml" value="0.138" />
         <entry key="app/src/main/res/drawable/custom_input.xml" value="0.138" />
         <entry key="app/src/main/res/drawable/custom_lock_icon.xml" value="0.138" />
+        <entry key="app/src/main/res/drawable/gender_tab_selector.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/gender_tab_text_color_selector.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_email.xml" value="0.138" />
         <entry key="app/src/main/res/drawable/ic_email_focused.xml" value="0.138" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.131" />
         <entry key="app/src/main/res/drawable/ic_lock.xml" value="0.138" />
         <entry key="app/src/main/res/drawable/ic_lock_focused.xml" value="0.138" />
+        <entry key="app/src/main/res/drawable/user_image_background.xml" value="0.191" />
         <entry key="app/src/main/res/layout/activity_base.xml" value="0.20989583333333334" />
         <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.2828096118299446" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_register.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/activity_register.xml" value="0.36523132324218754" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_user_profile.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.1" />
         <entry key="app/src/main/res/layout/progress_dialog.xml" value="0.5483016967773438" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.138" />

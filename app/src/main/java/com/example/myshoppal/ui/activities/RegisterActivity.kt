@@ -1,8 +1,14 @@
 package com.example.myshoppal.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import com.example.myshoppal.R
 import com.example.myshoppal.databinding.ActivityRegisterBinding
+import com.example.myshoppal.firestore.FirestoreClass
+import com.example.myshoppal.models.User
+import com.example.myshoppal.utils.Constants.EXTRA_USER_DETAILS
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
@@ -111,26 +117,41 @@ class RegisterActivity : BaseActivity() {
         if (validateTextFields()) {
 
             val email: String = binding.textInputEditTextEmail.text.toString().trim { it <= ' ' }
-            val password: String = binding.textInputEditTextPassword.text.toString().trim { it <= ' ' }
-
+            val password: String =
+                binding.textInputEditTextPassword.text.toString().trim { it <= ' ' }
+            val name: String = binding.textInputEditTextName.text.toString().trim { it <= ' ' }
 
             showProgressDialog()
 
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
-
-                    hideProgressDialog()
-
                     if (task.isSuccessful) {
                         val firebaseUser: FirebaseUser = task.result.user!!
 
-                        showSnackBar(resources.getString(R.string.register_success), false)
+                        FirestoreClass().registerUser(
+                            this,
+                            User(firebaseUser.uid, name, email),
+                        )
                     } else {
+                        hideProgressDialog()
                         showSnackBar(task.exception?.message.toString(), true)
                     }
                 }
 
         }
+    }
+
+    fun registerUserSuccess(user: User) {
+        hideProgressDialog()
+        showSnackBar(resources.getString(R.string.register_success), false)
+        val intent = Intent(this, UserProfileActivity::class.java)
+        intent.putExtra(EXTRA_USER_DETAILS, user)
+        Handler(Looper.getMainLooper()).postDelayed({ startActivity(intent) }, 1000)
+    }
+
+    fun registerUserFailure() {
+        hideProgressDialog()
+        showSnackBar(resources.getString(R.string.err_registering_user), false)
     }
 
 }

@@ -16,11 +16,13 @@ import com.example.myshoppal.databinding.ActivityUserProfileBinding
 import com.example.myshoppal.firestore.FirestoreClass
 import com.example.myshoppal.models.User
 import com.example.myshoppal.utils.Constants
-import com.example.myshoppal.utils.Constants.EXTRA_USER_DETAILS
 import com.example.myshoppal.utils.Constants.FEMALE
 import com.example.myshoppal.utils.Constants.GENDER
+import com.example.myshoppal.utils.Constants.IMAGE
 import com.example.myshoppal.utils.Constants.MALE
 import com.example.myshoppal.utils.Constants.MOBILE
+import com.example.myshoppal.utils.Constants.USER_DETAILS
+import com.example.myshoppal.utils.Constants.USER_PROFILE_IMAGE
 import com.example.myshoppal.utils.Constants.showImageChooser
 import com.example.myshoppal.utils.GlideLoader
 import java.io.IOException
@@ -38,7 +40,14 @@ class UserProfileActivity : BaseActivity() {
         binding = ActivityUserProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val user: User = intent.getParcelableExtra(EXTRA_USER_DETAILS)!!
+        supportActionBar!!.setBackgroundDrawable(
+            ContextCompat.getDrawable(
+                this,
+                R.drawable.app_gradient_color_background,
+            )
+        )
+
+        val user: User = intent.getParcelableExtra(USER_DETAILS)!!
 
         binding.textInputEditTextName.isEnabled = false
         binding.textInputEditTextName.setText(user.name)
@@ -148,10 +157,7 @@ class UserProfileActivity : BaseActivity() {
 
         if (validateTextFields()) {
             showProgressDialog()
-            val userHashMap = HashMap<String, Any>()
-            userHashMap[MOBILE] = mobile.toLong()
-            userHashMap[GENDER] = if (binding.maleRadioButton.isChecked) MALE else FEMALE
-            FirestoreClass().updateUserDetails(this, userHashMap)
+            FirestoreClass().uploadImage(this, mSelectedImageFileUri, USER_PROFILE_IMAGE)
         }
 
     }
@@ -163,12 +169,28 @@ class UserProfileActivity : BaseActivity() {
             val intent = Intent(this, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
-        }, 1000)
+        }, 500)
     }
 
     fun updateUserDetailsFailure() {
         hideProgressDialog()
         showSnackBar(resources.getString(R.string.err_msg_profile_update_failure), false)
+    }
+
+    fun imageUploadSuccess(downloadableImageUrl: String) {
+        showSnackBar(resources.getString(R.string.msg_image_updated_successfully), false)
+
+        val userHashMap = HashMap<String, Any>()
+        userHashMap[IMAGE] = downloadableImageUrl
+        userHashMap[MOBILE] = mobile.toLong()
+        userHashMap[GENDER] = if (binding.maleRadioButton.isChecked) MALE else FEMALE
+
+        FirestoreClass().updateUserDetails(this, userHashMap)
+    }
+
+    fun imageUploadFailure() {
+        hideProgressDialog()
+        showSnackBar(resources.getString(R.string.err_msg_image_updated_failure), true)
     }
 
 }

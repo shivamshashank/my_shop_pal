@@ -6,9 +6,6 @@ import android.os.Handler
 import android.os.Looper
 import com.example.myshoppal.R
 import com.example.myshoppal.databinding.ActivityLoginBinding
-import com.example.myshoppal.firestore.FirestoreClass
-import com.example.myshoppal.models.User
-import com.example.myshoppal.utils.Constants.EXTRA_USER_DETAILS
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : BaseActivity() {
@@ -88,35 +85,20 @@ class LoginActivity : BaseActivity() {
 
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
+                    hideProgressDialog()
+
                     if (task.isSuccessful) {
-                        FirestoreClass().getUserDetails(this)
+                        showSnackBar(resources.getString(R.string.login_success), false)
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            startActivity(Intent(this, MainActivity::class.java))
+                            finish()
+                        }, 500)
                     } else {
-                        hideProgressDialog()
                         showSnackBar(task.exception?.message.toString(), true)
                     }
                 }
 
         }
-    }
-
-    fun getUserDetailsSuccess(user: User) {
-        hideProgressDialog()
-        showSnackBar(resources.getString(R.string.login_success), false)
-        if (user.profileCompleted == 0) {
-            val intent = Intent(this, UserProfileActivity::class.java)
-            intent.putExtra(EXTRA_USER_DETAILS, user)
-            Handler(Looper.getMainLooper()).postDelayed({ startActivity(intent) }, 1000)
-        } else {
-            Handler(Looper.getMainLooper()).postDelayed({
-                startActivity(Intent(this, MainActivity::class.java))
-                finish()
-            }, 1000)
-        }
-    }
-
-    fun getUserDetailsFailure(e: Exception) {
-        hideProgressDialog()
-        showSnackBar(e.message.toString(), true)
     }
 
 }

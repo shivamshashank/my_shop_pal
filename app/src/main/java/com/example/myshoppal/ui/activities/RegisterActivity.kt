@@ -8,7 +8,7 @@ import com.example.myshoppal.R
 import com.example.myshoppal.databinding.ActivityRegisterBinding
 import com.example.myshoppal.firestore.FirestoreClass
 import com.example.myshoppal.models.User
-import com.example.myshoppal.utils.Constants.EXTRA_USER_DETAILS
+import com.example.myshoppal.utils.Constants.USER_DETAILS
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
@@ -145,8 +145,8 @@ class RegisterActivity : BaseActivity() {
         hideProgressDialog()
         showSnackBar(resources.getString(R.string.register_success), false)
         val intent = Intent(this, UserProfileActivity::class.java)
-        intent.putExtra(EXTRA_USER_DETAILS, user)
-        Handler(Looper.getMainLooper()).postDelayed({ startActivity(intent) }, 1000)
+        intent.putExtra(USER_DETAILS, user)
+        Handler(Looper.getMainLooper()).postDelayed({ startActivity(intent) }, 500)
     }
 
     fun registerUserFailure() {

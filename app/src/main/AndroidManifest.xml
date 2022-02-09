@@ -12,8 +12,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true">
         <activity
+            android:name=".ui.activities.SettingsActivity"
+            android:exported="false"
+            android:label="@string/action_settings"
+            android:screenOrientation="fullSensor"
+            android:theme="@style/AppTheme"/>
+        <activity
             android:name=".ui.activities.UserProfileActivity"
             android:exported="false"
+            android:label="@string/title_complete_profile"
             android:screenOrientation="fullSensor"
             android:theme="@style/AppTheme" />
         <activity

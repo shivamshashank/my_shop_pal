@@ -2,7 +2,9 @@ package com.example.myshoppal.utils
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.provider.MediaStore
+import android.webkit.MimeTypeMap
 
 object Constants {
 
@@ -17,8 +19,8 @@ object Constants {
     const val PREFERENCES_NAME: String = "MyShopPalPrefs"
     const val PREFERENCES_UID: String = "Preferences_uid"
 
-    // Intent extra constants.
-    const val EXTRA_USER_DETAILS: String = "extra_user_details"
+    // Intent Constants.
+    const val USER_DETAILS: String = "user_details"
     const val EXTRA_PRODUCT_ID: String = "extra_product_id"
     const val EXTRA_PRODUCT_OWNER_ID: String = "extra_product_owner_id"
     const val EXTRA_ADDRESS_DETAILS: String = "AddressDetails"
@@ -41,12 +43,10 @@ object Constants {
     const val DEFAULT_CART_QUANTITY: String = "1"
 
     // Firebase database field names
+    const val NAME: String = "name"
     const val MOBILE: String = "mobile"
     const val GENDER: String = "gender"
     const val IMAGE: String = "image"
-    const val COMPLETE_PROFILE: String = "profileCompleted"
-    const val FIRST_NAME: String = "firstName"
-    const val LAST_NAME: String = "lastName"
     const val USER_ID: String = "user_id"
     const val PRODUCT_ID: String = "product_id"
 
@@ -68,4 +68,10 @@ object Constants {
         )
         activity.startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST_CODE)
     }
+
+    fun getFileExtension(activity: Activity, uri: Uri?): Any? {
+        return MimeTypeMap.getSingleton()
+            .getExtensionFromMimeType(activity.contentResolver.getType(uri!!))
+    }
+
 }

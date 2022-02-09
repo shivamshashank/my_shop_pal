@@ -1,14 +1,18 @@
 package com.example.myshoppal.firestore
 
-import androidx.appcompat.app.AppCompatActivity
+import android.app.Activity
+import android.net.Uri
+import android.util.Log
 import com.example.myshoppal.models.User
-import com.example.myshoppal.ui.activities.LoginActivity
+import com.example.myshoppal.ui.activities.MainActivity
 import com.example.myshoppal.ui.activities.RegisterActivity
 import com.example.myshoppal.ui.activities.UserProfileActivity
 import com.example.myshoppal.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 
 class FirestoreClass {
 
@@ -22,25 +26,33 @@ class FirestoreClass {
             .addOnSuccessListener {
                 activity.registerUserSuccess(user)
             }
-            .addOnFailureListener {
+            .addOnFailureListener { exception ->
                 activity.registerUserFailure()
+
+                Log.e(
+                    activity.javaClass.simpleName,
+                    exception.message,
+                    exception
+                )
             }
     }
 
-    fun getUserDetails(activity: AppCompatActivity) {
+    fun getUserDetails(activity: MainActivity) {
         mFirestore.collection(Constants.USERS)
             .document(FirebaseAuth.getInstance().currentUser!!.uid)
             .get()
             .addOnSuccessListener { document ->
-                if (activity is LoginActivity) {
-                    val user = document.toObject(User::class.java)!!
-                    activity.getUserDetailsSuccess(user)
-                }
+                val user = document.toObject(User::class.java)!!
+                activity.getUserDetailsSuccess(user)
             }
-            .addOnFailureListener { e ->
-                if (activity is LoginActivity) {
-                    activity.getUserDetailsFailure(e)
-                }
+            .addOnFailureListener { exception ->
+                activity.getUserDetailsFailure()
+
+                Log.e(
+                    activity.javaClass.simpleName,
+                    exception.message,
+                    exception
+                )
             }
     }
 
@@ -48,11 +60,54 @@ class FirestoreClass {
         mFirestore.collection(Constants.USERS)
             .document(FirebaseAuth.getInstance().currentUser!!.uid)
             .update(userHashMap)
-            .addOnSuccessListener { document ->
+            .addOnSuccessListener {
                 activity.updateUserDetailsSuccess()
             }
-            .addOnFailureListener { e ->
+            .addOnFailureListener { exception ->
                 activity.updateUserDetailsFailure()
+
+                Log.e(
+                    activity.javaClass.simpleName,
+                    exception.message,
+                    exception
+                )
+            }
+    }
+
+    fun uploadImage(activity: Activity, imageFileURI: Uri?, imageType: String) {
+        val sRef: StorageReference = FirebaseStorage.getInstance().reference.child(
+            imageType + System.currentTimeMillis() + "."
+                    + Constants.getFileExtension(
+                activity,
+                imageFileURI,
+            )
+        )
+
+        sRef.putFile(imageFileURI!!)
+            .addOnSuccessListener { taskSnapshot ->
+                taskSnapshot.metadata!!.reference!!.downloadUrl
+                    .addOnSuccessListener { uri ->
+                        Log.e("Downloadable Image URL", uri.toString())
+
+                        when (activity) {
+                            is UserProfileActivity -> {
+                                activity.imageUploadSuccess(uri.toString())
+                            }
+                        }
+                    }
+            }
+            .addOnFailureListener { exception ->
+                when (activity) {
+                    is UserProfileActivity -> {
+                        activity.imageUploadFailure()
+                    }
+                }
+
+                Log.e(
+                    activity.javaClass.simpleName,
+                    exception.message,
+                    exception
+                )
             }
     }
 

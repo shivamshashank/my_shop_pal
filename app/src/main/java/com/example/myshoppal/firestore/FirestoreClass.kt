@@ -6,7 +6,7 @@ import android.util.Log
 import com.example.myshoppal.models.User
 import com.example.myshoppal.ui.activities.MainActivity
 import com.example.myshoppal.ui.activities.RegisterActivity
-import com.example.myshoppal.ui.activities.UserProfileActivity
+import com.example.myshoppal.ui.activities.ProfileActivity
 import com.example.myshoppal.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -56,7 +56,7 @@ class FirestoreClass {
             }
     }
 
-    fun updateUserDetails(activity: UserProfileActivity, userHashMap: HashMap<String, Any>) {
+    fun updateUserDetails(activity: ProfileActivity, userHashMap: HashMap<String, Any>) {
         mFirestore.collection(Constants.USERS)
             .document(FirebaseAuth.getInstance().currentUser!!.uid)
             .update(userHashMap)
@@ -90,7 +90,7 @@ class FirestoreClass {
                         Log.e("Downloadable Image URL", uri.toString())
 
                         when (activity) {
-                            is UserProfileActivity -> {
+                            is ProfileActivity -> {
                                 activity.imageUploadSuccess(uri.toString())
                             }
                         }
@@ -98,7 +98,7 @@ class FirestoreClass {
             }
             .addOnFailureListener { exception ->
                 when (activity) {
-                    is UserProfileActivity -> {
+                    is ProfileActivity -> {
                         activity.imageUploadFailure()
                     }
                 }

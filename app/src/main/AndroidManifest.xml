@@ -18,9 +18,9 @@
             android:screenOrientation="fullSensor"
             android:theme="@style/AppTheme"/>
         <activity
-            android:name=".ui.activities.UserProfileActivity"
+            android:name=".ui.activities.ProfileActivity"
             android:exported="false"
-            android:label="@string/title_complete_profile"
+            android:label="@string/title_profile"
             android:screenOrientation="fullSensor"
             android:theme="@style/AppTheme" />
         <activity

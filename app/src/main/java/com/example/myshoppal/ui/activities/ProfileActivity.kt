@@ -12,7 +12,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.myshoppal.R
-import com.example.myshoppal.databinding.ActivityUserProfileBinding
+import com.example.myshoppal.databinding.ActivityProfileBinding
 import com.example.myshoppal.firestore.FirestoreClass
 import com.example.myshoppal.models.User
 import com.example.myshoppal.utils.Constants
@@ -27,17 +27,18 @@ import com.example.myshoppal.utils.Constants.showImageChooser
 import com.example.myshoppal.utils.GlideLoader
 import java.io.IOException
 
-class UserProfileActivity : BaseActivity() {
+class ProfileActivity : BaseActivity() {
 
-    private lateinit var binding: ActivityUserProfileBinding
+    private lateinit var binding: ActivityProfileBinding
 
     private lateinit var mobile: String
     private var mSelectedImageFileUri: Uri? = null
+    private lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityUserProfileBinding.inflate(layoutInflater)
+        binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         supportActionBar!!.setBackgroundDrawable(
@@ -47,14 +48,9 @@ class UserProfileActivity : BaseActivity() {
             )
         )
 
-        val user: User = intent.getParcelableExtra(USER_DETAILS)!!
+        user = intent.getParcelableExtra(USER_DETAILS)!!
 
-        binding.textInputEditTextName.isEnabled = false
-        binding.textInputEditTextName.setText(user.name)
-
-        binding.textInputEditTextEmail.isEnabled = false
-        binding.textInputEditTextEmail.setText(user.email)
-
+        GlideLoader(this).loadUserPicture(user.image, binding.userPhotoImageView)
 
         binding.userPhotoImageView.setOnClickListener {
             if (ContextCompat.checkSelfPermission(
@@ -71,6 +67,23 @@ class UserProfileActivity : BaseActivity() {
                     Constants.READ_STORAGE_PERMISSION_CODE
                 )
             }
+        }
+
+        binding.textInputEditTextName.isEnabled = false
+        binding.textInputEditTextName.setText(user.name)
+
+        binding.textInputEditTextEmail.isEnabled = false
+        binding.textInputEditTextEmail.setText(user.email)
+
+        if (user.mobile.toString() != "0") {
+            binding.textInputEditTextMobile.setText(user.mobile.toString())
+        }
+
+        if (user.gender == MALE) {
+            binding.genderRadioGroup.check(R.id.maleRadioButton)
+        }
+        if (user.gender == FEMALE) {
+            binding.genderRadioGroup.check(R.id.femaleRadioButton)
         }
 
         binding.saveButton.setOnClickListener {
@@ -149,15 +162,21 @@ class UserProfileActivity : BaseActivity() {
     }
 
     private fun saveUserDetails() {
-        if (mSelectedImageFileUri == null) {
-            showSnackBar(resources.getString(R.string.err_msg_please_select_image), true)
+        if (user.image == "") {
+            if (mSelectedImageFileUri == null) {
+                showSnackBar(resources.getString(R.string.err_msg_please_select_image), true)
 
-            return
+                return
+            }
         }
 
         if (validateTextFields()) {
             showProgressDialog()
-            FirestoreClass().uploadImage(this, mSelectedImageFileUri, USER_PROFILE_IMAGE)
+            if (mSelectedImageFileUri == null) {
+                imageUploadSuccess(user.image)
+            } else {
+                FirestoreClass().uploadImage(this, mSelectedImageFileUri, USER_PROFILE_IMAGE)
+            }
         }
 
     }

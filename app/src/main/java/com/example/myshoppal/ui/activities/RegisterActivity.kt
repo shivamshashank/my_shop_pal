@@ -144,7 +144,7 @@ class RegisterActivity : BaseActivity() {
     fun registerUserSuccess(user: User) {
         hideProgressDialog()
         showSnackBar(resources.getString(R.string.register_success), false)
-        val intent = Intent(this, UserProfileActivity::class.java)
+        val intent = Intent(this, ProfileActivity::class.java)
         intent.putExtra(USER_DETAILS, user)
         Handler(Looper.getMainLooper()).postDelayed({ startActivity(intent) }, 500)
     }
